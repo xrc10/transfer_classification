@@ -1,7 +1,7 @@
-function [ dataSplit ] = randSplit( inputDir, classNames )
+function [ dataSplit ] = randBiSplit( inputDir, classNames )
 %RANDSPLIT Summary of this function goes here
 %   randomly split dataset without letting same event appears in both
-%   training and testing
+%   training and testing in both src and tgt split
 addpath('../tool');
 yTrn = [];
 yVal = [];

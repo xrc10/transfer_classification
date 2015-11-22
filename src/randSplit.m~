@@ -1,7 +1,6 @@
 function [ dataSplit ] = randSplit( inputDir, classNames )
 %RANDSPLIT Summary of this function goes here
-%   randomly split dataset without letting same event appears in both
-%   training and testing
+%   randomly split dataset 
 addpath('../tool');
 yTrn = [];
 yVal = [];

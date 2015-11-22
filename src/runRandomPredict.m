@@ -38,8 +38,9 @@ for f = 1:4
         dataSplit = randSplit(['../data/', folder_name], classes);
         
         %% generate random prediction
-        s
-        yPred = predict(mod, dataSplit.XTst);
+        labels = unique(dataSplit.yTrn);
+        randIdx = randi([1;size(labels,1)], size(dataSplit.yTst,1), 1);
+        yPred = labels(randIdx);
         evalObj = evaluate(dataSplit.yTst, yPred);
         fprintf('Test: macro F1 is %f, micro F1 is %f\n', evalObj.macroF1, evalObj.microF1);
         avgMacroF1(i) = evalObj.macroF1;
@@ -54,31 +55,4 @@ for f = 1:4
     fprintf(logFile, 'Test: CI of macro F1 is %f, CI of micro F1 is %f\n', 2*sqrt(var(avgMacroF1)/repTime), 2*sqrt(var(avgMicroF1)/repTime));
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% read data
-
-fprintf('loading data...\n');
-
-addpath('../tool');
-
-% folder_name = 'TDT5_English_svm';
-folder_name = 'TDT5_Chinese_svm_withDict';
-
-[yTrn, XTrn] = libsvmread(['../data/', folder_name, '/trn.svm']);
-[yTst, XTst] = libsvmread(['../data/', folder_name, '/tst.svm']);
-
-labels = unique(yTrn);
-
-%% evaluation on test set directly
-macroF1 = 0;
-microF1 = 0;
-repTime = 40;
-for i = 1:repTime
-    randIdx = randi([1;size(labels,1)], size(yTst,1), 1);
-    yPred = labels(randIdx);
-    evalObj = evaluate(yTst, yPred);
-    macroF1 = macroF1 + evalObj.macroF1;
-    microF1 = microF1 + evalObj.microF1;
-end
-fprintf('macro F1 is %f, micro F1 is %f\n', macroF1/repTime, microF1/repTime);

@@ -13,7 +13,7 @@ repTime = 100;
 for f = 1:4
     folder_name = folder_names{f};
     
-    if ~exist(fullfile('log/', mfilename, folder_name))
+    if ~exist(fullfile('log/', mfilename, folder_name), 'dir')
         mkdir(fullfile('log/', mfilename, folder_name));
     end
     logFile = fopen(fullfile('log/', mfilename, folder_name, 'log.txt'), 'w');
