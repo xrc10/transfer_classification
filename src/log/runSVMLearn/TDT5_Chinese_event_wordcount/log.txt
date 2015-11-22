@@ -1,0 +1,2 @@
+Test: macro F1 is 0.461288, micro F1 is 0.540036
+Test: CI of macro F1 is 0.019185, CI of micro F1 is 0.032676
