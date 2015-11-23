@@ -5,10 +5,10 @@ function [ paramsTgt ] = transNBModelParams( paramsSrc, simM )
 % simM: src_word_dim * tgt_word_dim matrix
 
 %% normalize simM that each row sum up to 1
-n =  sum( simM, 2 );
-n( n == 0 ) = 1;
-fprintf('normalizing similarity matrix...\n');
-simM = bsxfun( @rdivide, simM, n );
+% n =  sum( simM, 2 );
+% n( n == 0 ) = 1;
+% fprintf('normalizing similarity matrix...\n');
+% simM = bsxfun( @rdivide, simM, n );
 %% simple weighted summation
 fprintf('transfering NB model...\n');
 paramsTgt = paramsSrc * simM;

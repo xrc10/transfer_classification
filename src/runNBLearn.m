@@ -40,7 +40,7 @@ for f = 1:4
         %% train on train set
         fprintf('Training with Naive Bayes...,');
         mod = NaiveBayes.fit(dataSplit.XTrn, dataSplit.yTrn, 'Distribution', 'mn');
-        %     mod = fitNaiveBayes(dataSplit.XTrn, dataSplit.yTrn, 'Distribution', 'mn');
+%         mod = fitNaiveBayes(dataSplit.XTrn, dataSplit.yTrn, 'Distribution', 'mn');
         yPred = predict(mod, dataSplit.XVal);
         evalObj = evaluate(dataSplit.yVal, yPred);
         fprintf('Validation: macro F1 is %f, micro F1 is %f\n', evalObj.macroF1, evalObj.microF1);
