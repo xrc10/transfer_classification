@@ -1,5 +1,7 @@
 clc; clear all; close all;
 
+rng(315);
+
 %% read data
 
 f1 = 'TDT5_Chinese_event_dict_wordcount'; %% 852 in total

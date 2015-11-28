@@ -25,16 +25,22 @@ for i = 1:size(classNames, 2)
     tgtSvmFiles = extractSVMFiles(tgtDirList);
     overlapSvmFiles = intersect(srcSvmFiles, tgtSvmFiles);
     fprintf('%s\t%d\t%d\t%d\n', classNames{i}, size(srcSvmFiles, 2), size(tgtSvmFiles, 2), size(overlapSvmFiles,2));
-%     for j = 1:size(srcSvmFiles, 2)
-%         fprintf('%s:%d\t', srcSvmFiles{j}, countDoc(fullfile(srcInputDir, classNames{i}, srcSvmFiles{j})));
-%         fprintf('\n');
-%     end
-%     fprintf('\n');
-%     for j = 1:size(tgtSvmFiles, 2)
-%         fprintf('%s:%d\t', tgtSvmFiles{j}, countDoc(fullfile(tgtInputDir, classNames{i}, tgtSvmFiles{j})));
-% 
-%     end
-
+    for j = 1:size(srcSvmFiles, 2)
+        fprintf('%d ', countDoc(fullfile(srcInputDir, classNames{i}, srcSvmFiles{j})));
+    end
+    fprintf('\t');
+    for j = 1:size(tgtSvmFiles, 2)
+        fprintf('%d ', countDoc(fullfile(tgtInputDir, classNames{i}, tgtSvmFiles{j})));
+    end
+    fprintf('\t');
+    for j = 1:size(overlapSvmFiles, 2)
+        fprintf('%d ', countDoc(fullfile(srcInputDir, classNames{i}, overlapSvmFiles{j})));
+    end
+    fprintf('\t');
+    for j = 1:size(overlapSvmFiles, 2)
+        fprintf('%d ', countDoc(fullfile(tgtInputDir, classNames{i}, overlapSvmFiles{j})));
+    end
+    fprintf('\n');
 end
 
 end
