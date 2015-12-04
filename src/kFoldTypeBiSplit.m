@@ -2,7 +2,9 @@ function [ dataSplit ] = kFoldTypeBiSplit( srcInputDir, tgtInputDir, classNames,
 %KFOLDTYPEBISPLIT Summary of this function goes here
 %   Detailed explanation goes here
 
-addpath('../tool');
+if exist('../tool', 'dir')
+    addpath('../tool');
+end
 
 XAll = cell(kFold, 2);
 YAll = cell(kFold, 2);

@@ -1,7 +1,9 @@
 function [ dataSplit ] = kFoldEventBiSplit( srcInputDir, tgtInputDir, classNames, kFold )
 %KFOLDEVENTBISPLIT Summary of this function goes here
 
-addpath('../tool');
+if exist('../tool', 'dir')
+    addpath('../tool');
+end
 
 XAll = cell(kFold, 2);
 YAll = cell(kFold, 2);

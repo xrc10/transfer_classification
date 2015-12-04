@@ -1,4 +1,4 @@
-clc; clear all; close all;
+function eval = funEventSimpleNBTransLearn(simM)
 
 rng(315);
 
@@ -8,33 +8,28 @@ tgtFolder = 'TDT5_Chinese_event_dict_wordcount';
 srcFolder = 'TDT5_English_event_dict_wordcount';
 % srcFolder = 'TDT5_Chinese_event_dict_wordcount';
 % tgtFolder = 'TDT5_English_event_dict_wordcount';
-repTime = 100;
+
 pSrc = 17327;
-% pSrc = 74539;
 pTgt = 30000;
-% pTgt = 17327;
-% simMPath = '../data/linear_WE_transfer/eucSimM.mat';
-simMPath = '../data/linear_WE_transfer/simDictM.mat';
-% simMPath = '../data/linear_WE_transfer/cosSimM.mat';
 
 kFold = 5;
 
 %% load simM
-load(simMPath, 'simM');
+% load(simMPath, 'simM');
 %% normalize simM that each row sum up to 1
 n =  sum( simM, 2 );
 n( n == 0 ) = 1;
 fprintf('normalizing similarity matrix...\n');
 simM = bsxfun( @rdivide, simM, n );
 
-if ~exist(fullfile('log/', mfilename, [srcFolder, '_TO_', tgtFolder]), 'dir')
-    mkdir(fullfile('log/', mfilename, [srcFolder, '_TO_', tgtFolder]));
-end
-logFile = fopen(fullfile('log/', mfilename, [srcFolder, '_TO_', tgtFolder], 'log.txt'), 'w');
+% if ~exist(fullfile('log/', mfilename, [srcFolder, '_TO_', tgtFolder]), 'dir')
+%     mkdir(fullfile('log/', mfilename, [srcFolder, '_TO_', tgtFolder]));
+% end
+% logFile = fopen(fullfile('log/', mfilename, [srcFolder, '_TO_', tgtFolder], 'log.txt'), 'w');
 
 fprintf('loading data...\n');
 
-addpath('../tool');
+addpath('../../tool');
 
 classes = {'Accidents',...
     'Acts of Violence or War',...
@@ -55,7 +50,7 @@ avgTgtMicroF1 = zeros(kFold, 1);
 avgTransMacroF1 = zeros(kFold, 1);
 avgTransMicroF1 = zeros(kFold, 1);
 
-dataSplit = kFoldEventBiSplit(['../data/', srcFolder], ['../data/', tgtFolder], classes, kFold);
+dataSplit = kFoldEventBiSplit(['../../data/', srcFolder], ['../../data/', tgtFolder], classes, kFold);
 
 for i = 1:kFold
     
@@ -134,21 +129,31 @@ for i = 1:kFold
     avgTgtMicroF1(i) = evalObj.microF1;
 end
 
-aggMacroF1 = [avgSrcMacroF1, avgTgtMacroF1, avgTransMacroF1];
-aggMicroF1 = [avgSrcMicroF1, avgTgtMicroF1, avgTransMicroF1];
-tag = {'src', 'tgt', 'trans'};
+eval.avgSrcMacroF1 = mean(avgSrcMacroF1);
+eval.avgTgtMacroF1 = mean(avgTgtMacroF1);
+eval.avgTransMacroF1 = mean(avgTransMacroF1);
+eval.avgSrcMicroF1 = mean(avgSrcMicroF1);
+eval.avgTgtMicroF1 = mean(avgTgtMicroF1);
+eval.avgTransMicroF1 = mean(avgTransMicroF1);
 
-for i = 1:3
-    
-    avgMacroF1 = aggMacroF1(:,i);
-    avgMicroF1 = aggMicroF1(:,i);
-    
-    fprintf(['-------', tag{i}, ' Overall--------\n']);
-    fprintf('Test: macro F1 is %f, micro F1 is %f\n', mean(avgMacroF1), mean(avgMicroF1));
-    fprintf('Test: CI of macro F1 is %f, CI of micro F1 is %f\n', 2*sqrt(var(avgMacroF1)/repTime), 2*sqrt(var(avgMicroF1)/repTime));
-    
-    fprintf(logFile, 'Test: macro F1 is %f, micro F1 is %f\n', mean(avgMacroF1), mean(avgMicroF1));
-    fprintf(logFile, 'Test: CI of macro F1 is %f, CI of micro F1 is %f\n', 2*sqrt(var(avgMacroF1)/repTime), 2*sqrt(var(avgMicroF1)/repTime));
+
+% aggMacroF1 = [avgSrcMacroF1, avgTgtMacroF1, avgTransMacroF1];
+% aggMicroF1 = [avgSrcMicroF1, avgTgtMicroF1, avgTransMicroF1];
+% tag = {'src', 'tgt', 'trans'};
+
+% for i = 1:3
+%     
+%     avgMacroF1 = aggMacroF1(:,i);
+%     avgMicroF1 = aggMicroF1(:,i);
+%     
+%     fprintf(['-------', tag{i}, ' Overall--------\n']);
+%     fprintf('Test: macro F1 is %f, micro F1 is %f\n', mean(avgMacroF1), mean(avgMicroF1));
+%     fprintf('Test: CI of macro F1 is %f, CI of micro F1 is %f\n', 2*sqrt(var(avgMacroF1)/repTime), 2*sqrt(var(avgMicroF1)/repTime));
+%     
+%     fprintf(logFile, 'Test: macro F1 is %f, micro F1 is %f\n', mean(avgMacroF1), mean(avgMicroF1));
+%     fprintf(logFile, 'Test: CI of macro F1 is %f, CI of micro F1 is %f\n', 2*sqrt(var(avgMacroF1)/repTime), 2*sqrt(var(avgMicroF1)/repTime));
+% 
+% end
 
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

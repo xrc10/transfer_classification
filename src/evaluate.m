@@ -30,7 +30,11 @@ evalObj.outputLabels = outputLabels;
 evalObj.confTable = confTable;
 evalObj.macroPrec = mean(precList);
 evalObj.macroRecl = mean(reclList);
-evalObj.macroF1 = 2*mean(precList)*mean(reclList)/(mean(precList) + mean(reclList));
+if evalObj.macroPrec + evalObj.macroRecl > 0
+    evalObj.macroF1 = 2*mean(precList)*mean(reclList)/(mean(precList) + mean(reclList));
+else
+    evalObj.macroF1 = 0;
+end
 evalObj.microPrec = meanConfTable(1,1)/(meanConfTable(1,1) + meanConfTable(1,2));
 evalObj.microRecl = meanConfTable(1,1)/(meanConfTable(1,1) + meanConfTable(2,1));
 evalObj.microF1 = 2*meanConfTable(1,1)/(2*meanConfTable(1,1) + meanConfTable(2,1) + meanConfTable(1,2));

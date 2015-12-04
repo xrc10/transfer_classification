@@ -12,7 +12,13 @@ function [ paramsTgt ] = transNBModelParams( paramsSrc, simM )
 %% simple weighted summation
 fprintf('transfering NB model...\n');
 paramsTgt = paramsSrc * simM;
-paramsTgt = paramsTgt + 1/size(paramsTgt, 2);
+
+%% one way to remove zeros in paramsTgt
+% paramsTgt = paramsTgt + 1/size(paramsTgt, 2);
+
+%% another way to remove zeros in paramsTgt
+
+
 %% normalize paramsTgt
 n =  sum( paramsTgt, 2 );
 n( n == 0 ) = 1;
